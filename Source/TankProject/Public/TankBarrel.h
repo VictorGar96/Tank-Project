@@ -1,0 +1,28 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Components/StaticMeshComponent.h"
+#include "TankBarrel.generated.h"
+
+/**
+ * 
+ */
+UCLASS(meta = (BlueprintSpawnableComponent)) // hidecategories("Collision")
+class TANKPROJECT_API UTankBarrel : public UStaticMeshComponent
+{
+	GENERATED_BODY()
+	
+public:
+	void Elevate(float degreesPerSecond);
+
+private:
+	UPROPERTY(EditAnywhere, Category= Setup)
+	float MaxDregreesPerSecond = 20;
+	UPROPERTY(EditAnywhere, Category = Setup)
+	float MaxDregreesElevation = 40;
+	UPROPERTY(EditAnywhere, Category = Setup)
+	float MinDregreesElevation = 0;
+
+};
