@@ -6,6 +6,8 @@
 #include "Gameframework/Actor.h"
 #include "Components/ActorComponent.h"
 #include "TankBarrel.h"
+#include "TankTrack.h"
+#include "TankTurret.h"
 #include "TankAimingComponent.generated.h"
 
 // Holds barrel properties and Elevation method
@@ -28,10 +30,16 @@ public:
 	
 	void SetBarrelReference(UTankBarrel* barrelSet);
 
+	void SetTurretReference(UTankTurret* turretSet);
+	
 	void MoveBarrelTowards(FVector aimDirection);
 
 	// TODO add SetTurretReference
 
 private:
 	UTankBarrel* barrel = nullptr;
+
+	UTankTurret* turret = nullptr;
+
+	UTankTrack* track = nullptr;
 };
