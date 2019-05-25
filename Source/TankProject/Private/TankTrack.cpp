@@ -5,7 +5,7 @@
 void UTankTrack::SetThrottle(float throttle)
 {
 	auto name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%f: Projectile fires at %f"), *name, throttle);
+	//UE_LOG(LogTemp, Warning, TEXT("%f: Projectile fires at %f"), *name, throttle);
 
 	auto forceApplied = GetForwardVector() * throttle * trackMaxDrivingforce;
 	auto forceLocation = GetComponentLocation();

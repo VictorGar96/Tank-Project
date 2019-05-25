@@ -27,9 +27,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = SetUp)
 	void SetTurretReference(UTankTurret* turretToSet);
 
-
-	
-
 	UFUNCTION(BlueprintCallable, Category = Firing)
 	void Fire();
 
