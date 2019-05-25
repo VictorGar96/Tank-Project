@@ -6,9 +6,17 @@
 #include "Gameframework/Actor.h"
 #include "Components/ActorComponent.h"
 #include "TankBarrel.h"
-#include "TankTrack.h"
 #include "TankTurret.h"
 #include "TankAimingComponent.generated.h"
+
+/// Enum for aiming state
+UENUM()
+enum class EFiringState : uint8 
+{	
+	Locked, 
+	Aiming, 
+	Reloading 
+};
 
 // Holds barrel properties and Elevation method
 
@@ -23,6 +31,8 @@ public:
 
 protected:
 	
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringState state = EFiringState::Aiming;
 
 public:	
 	
@@ -32,14 +42,15 @@ public:
 
 	void SetTurretReference(UTankTurret* turretSet);
 	
-	void MoveBarrelTowards(FVector aimDirection);
 
 	// TODO add SetTurretReference
 
 private:
+	
 	UTankBarrel* barrel = nullptr;
 
 	UTankTurret* turret = nullptr;
 
-	UTankTrack* track = nullptr;
+
+	void MoveBarrelTowards(FVector aimDirection);
 };

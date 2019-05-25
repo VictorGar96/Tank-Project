@@ -9,12 +9,12 @@ void ATank_PC::BeginPlay()
 
 	auto controlledTank = GetControlledTank();
 
-	if (controlledTank == NULL)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player controller not possesing a tank"));
-	}
-	else
-		UE_LOG(LogTemp, Warning, TEXT("Player controller possesing %s"), *(controlledTank->GetName()));
+	//if (controlledTank == NULL)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("Player controller not possesing a tank"));
+	//}
+	//else
+	//	UE_LOG(LogTemp, Warning, TEXT("Player controller possesing %s"), *(controlledTank->GetName()));
 
 }
 

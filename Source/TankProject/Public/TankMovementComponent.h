@@ -18,8 +18,8 @@ class TANKPROJECT_API UTankMovementComponent : public UNavMovementComponent
 {
 	GENERATED_BODY()
 	
-public:
-
+public:	
+	
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialise(UTankTrack* leftTrackToSet, UTankTrack* rightTrackToSet);
 
@@ -31,6 +31,9 @@ public:
 
 	
 private:
+	
+	/// Called from the pathfinding logic by the AI control
+	virtual void RequestDirectMove(const FVector& moveVelocity, bool bForceMaxSpeed) override;
 
 	UTankTrack* leftTrack  = nullptr;
 	UTankTrack* rightTrack = nullptr;

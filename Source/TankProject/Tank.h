@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../Public/TankAimingComponent.h"
+#include "TankMovementComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
@@ -36,12 +37,17 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* tankAimingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* tankMovementComponent = nullptr;
 
 private:
 	ATank();
+
+	virtual void BeginPlay() override;
 	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -56,7 +62,6 @@ private:
 	TSubclassOf<AProjectile> projectileBlueprint;
 
 	UTankBarrel* barrel = nullptr;
-
 
 	float reloadTankInSeconds = 2.f;
 
