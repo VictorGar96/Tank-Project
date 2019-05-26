@@ -2,9 +2,10 @@
 
 #pragma once
 
-#include "Tank.h"
+
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
+#include "Engine.h"
+#include "GameFramework/PlayerController.h" 
 #include "Tank_PC.generated.h"
 
 class UTankAimingComponent;
@@ -24,9 +25,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
 	
 	UFUNCTION(BlueprintImplementableEvent, category = "Setup")
 	void foundAimingComponent(UTankAimingComponent* aimCompRef);

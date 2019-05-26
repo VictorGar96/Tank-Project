@@ -1,22 +1,22 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank_PC.h"
+#include "Gameframework/Actor.h"
 #include "Engine/World.h"
+#include "TankMovementComponent.h"
+#include "../Public/TankAimingComponent.h"
+#include "Engine.h"
+#include "Components/ActorComponent.h"
 
 void ATank_PC::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto controlledTank = GetControlledTank();
+	auto aimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	
-	auto aimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	
-	if (aimingComponent)
-	{
+	if (!aimingComponent) {	return;	}
 		foundAimingComponent(aimingComponent);
-	}
-	else
-		UE_LOG(LogTemp, Warning, TEXT("Player controller cant find aiming component at Begin Play"));
+
 }
 
 void ATank_PC::Tick(float DeltaTime)
@@ -26,24 +26,17 @@ void ATank_PC::Tick(float DeltaTime)
 
 }
 
-ATank* ATank_PC::GetControlledTank() const
-{
-	/// Returns the player controller posseed
-	return Cast<ATank>(GetPawn());
-}
-
-
-
 void ATank_PC::AimTowardsCrossHair()
 {
-	if (!GetControlledTank()) { return; }
+	auto aimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+
+	if (!aimingComponent) { return; }
 
 	FVector hitLocation; /// OUT paremeter
 
 	if(GetSightRayHitLocation(hitLocation)) /// LineTrace
 	{
-		/// 
-		GetControlledTank()->AimAt(hitLocation);
+		aimingComponent->AimAt(hitLocation);
 	}
 	
 }

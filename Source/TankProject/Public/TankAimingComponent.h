@@ -9,6 +9,8 @@
 #include "TankTurret.h"
 #include "TankAimingComponent.generated.h"
 
+class AProjectile;
+
 /// Enum for aiming state
 UENUM()
 enum class EFiringState : uint8 
@@ -29,6 +31,8 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	void MoveBarrelTowards(FVector aimDirection);
+
 protected:
 	
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -39,16 +43,28 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialise(UTankBarrel* tankBarrelToSet, UTankTurret* tankTurretToSet);
 	
-	void AimAt(FVector hitLocation, float launchSpeed);
-	
+	void AimAt(FVector hitLocation);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float launchSpeed = 10000.f; /// TODO find sensible default
 	// TODO add SetTurretReference
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
 
 private:
 	
 	UTankBarrel* barrel = nullptr;
-
 	UTankTurret* turret = nullptr;
 
 
-	void MoveBarrelTowards(FVector aimDirection);
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float reloadTime = 1.f; /// TODO find sensible default
+
+	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
+	TSubclassOf<AProjectile> projectileBlueprint;
+	
+	float reloadTankInSeconds = 2.f;
+
+	double lastFireTime = 0;
 };
