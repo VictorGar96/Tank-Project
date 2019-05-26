@@ -8,14 +8,15 @@ void ATank_PC::BeginPlay()
 	Super::BeginPlay();
 
 	auto controlledTank = GetControlledTank();
-
-	//if (controlledTank == NULL)
-	//{
-	//	UE_LOG(LogTemp, Warning, TEXT("Player controller not possesing a tank"));
-	//}
-	//else
-	//	UE_LOG(LogTemp, Warning, TEXT("Player controller possesing %s"), *(controlledTank->GetName()));
-
+	
+	auto aimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	
+	if (aimingComponent)
+	{
+		foundAimingComponent(aimingComponent);
+	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Player controller cant find aiming component at Begin Play"));
 }
 
 void ATank_PC::Tick(float DeltaTime)
@@ -30,6 +31,8 @@ ATank* ATank_PC::GetControlledTank() const
 	/// Returns the player controller posseed
 	return Cast<ATank>(GetPawn());
 }
+
+
 
 void ATank_PC::AimTowardsCrossHair()
 {

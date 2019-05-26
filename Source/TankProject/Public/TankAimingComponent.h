@@ -35,14 +35,12 @@ protected:
 	EFiringState state = EFiringState::Aiming;
 
 public:	
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Initialise(UTankBarrel* tankBarrelToSet, UTankTurret* tankTurretToSet);
 	
 	void AimAt(FVector hitLocation, float launchSpeed);
 	
-	void SetBarrelReference(UTankBarrel* barrelSet);
-
-	void SetTurretReference(UTankTurret* turretSet);
-	
-
 	// TODO add SetTurretReference
 
 private:

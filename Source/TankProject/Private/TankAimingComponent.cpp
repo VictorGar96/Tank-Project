@@ -19,22 +19,13 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* barrelSet)
+void UTankAimingComponent::Initialise(UTankBarrel * tankBarrelToSet, UTankTurret * tankTurretToSet)
 {
-	if (!barrelSet) { return; }
+	if (!tankBarrelToSet || !tankTurretToSet) { return; }
 
-	barrel = barrelSet;
+	barrel = tankBarrelToSet;
+	turret = tankTurretToSet;
 }
-
-void UTankAimingComponent::SetTurretReference(UTankTurret * turretSet)
-{
-	if (!turretSet) { return; }
-
-	turret = turretSet;
-}
-
-
 
 void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed)
 {
@@ -83,6 +74,8 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed)
 void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 {
 	/// Work-out difference between current barrel rotation and aimDirection
+
+	if (!barrel || !turret) { return; }
 
 	auto barrelRotation = barrel->GetForwardVector().Rotation();
 	auto aimAsRotatot = aimDirection.Rotation();
