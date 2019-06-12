@@ -28,6 +28,7 @@ void ATank_PC::Tick(float DeltaTime)
 
 void ATank_PC::AimTowardsCrossHair()
 {
+	if (!GetPawn()) { return; }
 	auto aimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
 	if (!aimingComponent) { return; }

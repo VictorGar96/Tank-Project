@@ -33,18 +33,18 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	if ((GetWorld()->GetRealTimeSeconds() - lastFireTime) < reloadTankInSeconds)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Reloading red"));
+		//UE_LOG(LogTemp, Warning, TEXT("Reloading red"));
 
 		state = EFiringState::Reloading;
 	}
 	else if (IsBarrelMoving())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Aiming"));
+		//UE_LOG(LogTemp, Warning, TEXT("Aiming"));
 		state = EFiringState::Aiming;
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Locked"));
+		//UE_LOG(LogTemp, Warning, TEXT("Locked"));
 		state = EFiringState::Locked;
 	}
 }
@@ -135,7 +135,7 @@ void UTankAimingComponent::Fire()
 
 	if (state != EFiringState::Reloading)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Fired projectile"));
+		//UE_LOG(LogTemp, Warning, TEXT("Fired projectile"));
 
 		/// Spawn projectile 
 		if (!ensure(barrel)) { return; }
