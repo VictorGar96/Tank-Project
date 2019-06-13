@@ -58,11 +58,15 @@ public:
 	float launchSpeed = 10000.f; /// TODO find sensible default
 	// TODO add SetTurretReference
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 roundsLeft = 10;
+
+
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetRoundsLeft() const;
+	int32 GetRoundsLeft() const;
 
 private:
 	
@@ -76,11 +80,10 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
 	TSubclassOf<AProjectile> projectileBlueprint;
 	
-	float reloadTankInSeconds = 3.f;
+	float reloadTankInSeconds = 0.1f;
 
 	double lastFireTime = 0;
 
 	FVector aimDir;
 
-	int roundsLeft = 3;
 };
