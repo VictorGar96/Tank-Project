@@ -17,7 +17,8 @@ enum class EFiringState : uint8
 {	
 	Locked, 
 	Aiming, 
-	Reloading 
+	Reloading,
+	OutOfAmmo
 };
 
 // Holds barrel properties and Elevation method
@@ -32,6 +33,8 @@ public:
 	UTankAimingComponent();
 
 	void MoveBarrelTowards(FVector aimDirection);
+
+	EFiringState GetFiringState() const;
 
 protected:
 	
@@ -58,6 +61,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetRoundsLeft() const;
+
 private:
 	
 
@@ -75,4 +81,6 @@ private:
 	double lastFireTime = 0;
 
 	FVector aimDir;
+
+	int roundsLeft = 3;
 };

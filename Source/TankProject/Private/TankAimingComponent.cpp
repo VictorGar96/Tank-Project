@@ -31,7 +31,11 @@ void UTankAimingComponent::BeginPlay()
 
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
-	if ((GetWorld()->GetRealTimeSeconds() - lastFireTime) < reloadTankInSeconds)
+	if (roundsLeft <= 0)
+	{
+		state = EFiringState::OutOfAmmo;
+	}
+	else if ((GetWorld()->GetRealTimeSeconds() - lastFireTime) < reloadTankInSeconds)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Reloading red"));
 
@@ -123,17 +127,25 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *aimAsRotatot.ToString());
 
 	barrel->Elevate(deltaRotator.Pitch);
-	turret->Rotate(deltaRotator.Yaw);
+	if (FMath::Abs(deltaRotator.Yaw) < 180)
+	{
+		turret->Rotate(deltaRotator.Yaw);
+	}
+	else
+		turret->Rotate(-deltaRotator.Yaw);
+
+}
+
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return EFiringState();
 }
 
 void UTankAimingComponent::Fire()
 {
-
-	//if (!(barrel && projectileBlueprint)) { return; }
-
 	/// Returns a double
 
-	if (state != EFiringState::Reloading)
+	if (state == EFiringState::Locked || state == EFiringState::Aiming)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Fired projectile"));
 
@@ -149,11 +161,15 @@ void UTankAimingComponent::Fire()
 
 		projectile->LaunchProjectile(launchSpeed);
 		
+		
 		lastFireTime = GetWorld()->GetRealTimeSeconds();
-
+		roundsLeft--;
 	}
+}
 
-
+int UTankAimingComponent::GetRoundsLeft() const
+{
+	return roundsLeft;
 }
 
 
