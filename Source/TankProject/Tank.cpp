@@ -16,8 +16,21 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+	currentHealth = maxHealth;
 }
 
+float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+	/// Redondea la variable
+	int32 damagePoints = FPlatformMath::RoundToInt(DamageAmount);
+	int32 damageToApply = FMath::Clamp(damagePoints, 0, currentHealth);
 
+	currentHealth -= damageToApply;
+
+	if(currentHealth <= 0)
+		UE_LOG(LogTemp, Warning, TEXT("Tank died"));
+
+	return damageToApply;
+}
 
 

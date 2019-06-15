@@ -80,7 +80,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
 	TSubclassOf<AProjectile> projectileBlueprint;
 	
-	float reloadTankInSeconds = 0.1f;
+	float reloadTankInSeconds = 2.f;
 
 	double lastFireTime = 0;
 
