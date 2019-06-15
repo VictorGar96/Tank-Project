@@ -6,7 +6,29 @@
 #include "TankMovementComponent.h"
 #include "../Public/TankAimingComponent.h"
 #include "Engine.h"
+#include "Tank.h"
+#include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
 #include "Components/ActorComponent.h"
+
+
+void ATank_PC::SetPawn(APawn* inPawn)
+{
+	Super::SetPawn(inPawn);
+
+	if (inPawn)
+	{
+		auto possessedTank = Cast<ATank>(inPawn);
+		if (!ensure(possessedTank)) { return; }
+
+		/// Subscribe out local method to the tank´s death events
+		possessedTank->OnDeath.AddUniqueDynamic(this, &ATank_PC::OnPossessedTankDeath);
+	}
+}
+
+void ATank_PC::OnPossessedTankDeath()
+{
+	StartSpectatingOnly();
+}
 
 void ATank_PC::BeginPlay()
 {
@@ -15,7 +37,8 @@ void ATank_PC::BeginPlay()
 	auto aimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	
 	if (!aimingComponent) {	return;	}
-		foundAimingComponent(aimingComponent);
+	
+	foundAimingComponent(aimingComponent);
 
 }
 
@@ -23,7 +46,6 @@ void ATank_PC::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AimTowardsCrossHair();
-
 }
 
 void ATank_PC::AimTowardsCrossHair()
@@ -56,8 +78,6 @@ bool ATank_PC::GetSightRayHitLocation(FVector& locationHit) const
 	FVector lookDirection;
 	if (GetLookDirection(screenLocation, lookDirection))
 	{
-		// UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *lookDirection.ToString());
-
 		/// Line-trace along that LookDirection, and see what we hit (up to max Range)
 		GetLookVectorHitLocation(lookDirection, locationHit);
 	}
@@ -86,7 +106,7 @@ bool ATank_PC::GetLookVectorHitLocation(FVector lookDirection, FVector& hitLocat
 			hit,
 			StartLocation,
 			EndLocation,
-			ECollisionChannel::ECC_Visibility)
+			ECollisionChannel::ECC_Camera)
 	   )
 	{
 		hitLocation = hit.Location;
